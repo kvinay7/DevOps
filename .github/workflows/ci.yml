@@ -1,0 +1,23 @@
+name: CI - Build & Push Docker Image
+
+on:
+  push:
+    branches: ["main"]     # on each push to main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Build Docker Image
+      run: docker build -t flask-app .
+
+    - name: Login to Docker Hub
+      run: echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+
+    - name: Tag & Push
+      run: |
+        docker tag flask-app ${{ secrets.DOCKERHUB_USERNAME }}/flask-app:latest
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/flask-app:latest
