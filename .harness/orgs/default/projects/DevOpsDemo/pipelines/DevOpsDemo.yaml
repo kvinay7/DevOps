@@ -1,0 +1,38 @@
+pipeline:
+  name: DevOps-Demo
+  identifier: DevOpsDemo
+  projectIdentifier: DevOpsDemo
+  orgIdentifier: default
+  tags: {}
+  properties:
+    ci:
+      codebase:
+        connectorRef: DevOps
+        build: <+input>
+  stages:
+    - stage:
+        name: CI
+        identifier: CI
+        description: ""
+        type: CI
+        spec:
+          cloneCodebase: true
+          caching:
+            enabled: true
+            override: true
+          buildIntelligence:
+            enabled: true
+          infrastructure:
+            type: VM
+            spec:
+              type: Pool
+              spec:
+                poolName: account.codespace_runner
+                os: Linux
+          execution:
+            steps:
+              - step:
+                  type: Run
+                  name: Run_1
+                  identifier: Run_1
+                  spec: {}
