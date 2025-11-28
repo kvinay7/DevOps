@@ -1,7 +1,6 @@
 ## Harness CI/CD
 
-Goal:
-**Whenever we push to GitHub → Harness should automatically:**
+**Goal - Whenever we push to GitHub → Harness should automatically:**
 
 1. Pull code
 2. Build and Push Docker image to container registry
