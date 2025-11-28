@@ -28,6 +28,7 @@ pipeline:
               type: Pool
               spec:
                 poolName: account.codespace_runner
+                harnessImageConnectorRef: account.harnessImage
                 os: Linux
           execution:
             steps:
@@ -35,4 +36,26 @@ pipeline:
                   type: Run
                   name: Run_1
                   identifier: Run_1
-                  spec: {}
+                  spec:
+                    shell: Sh
+                    command: |-
+                      echo "=== Checking Docker ==="
+                      docker --version
+
+                      echo "=== Build Docker Image ==="
+                      docker build -t flask-app:${HARNESS_BUILD_ID} .
+
+                      echo "=== Listing Images ==="
+                      docker images
+
+                      echo "=== Testing Container ==="
+                      docker run -d -p 5000:5000 flask-app:${HARNESS_BUILD_ID}
+                      sleep 5
+                      curl http://localhost:5000 || echo "API did not respond"
+
+                      echo "=== Login to Docker Hub ==="
+                      echo "<+secrets.getValue('dockerhub_password')>" | docker login -u kvinay7 --password-stdin
+
+                      echo "=== Tag & Push Image ==="
+                      docker tag flask-app:${HARNESS_BUILD_ID} kvina7/flask-app:latest
+                      docker push kvinay7/flask-app:latest
