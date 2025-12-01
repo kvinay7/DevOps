@@ -168,6 +168,8 @@ It runs tasks **automatically** when events occur (push, pull request, etc).
 
 ### **Q13: CI Example – Build & Push Docker Image**
 
+`.github/workflows/ci.yml`
+
 ```yaml
 name: CI - Build & Push Docker Image
 
