@@ -65,96 +65,15 @@ docker push username/myapp:v1
 
 ---
 
-# ☸ **KUBERNETES**
-
-### **Q6: What is Kubernetes?**
-
-Kubernetes is a **container orchestration platform** that **manages containers automatically**.
-
-| Why Kubernetes is Needed | Example                       |
-| ------------------------ | ----------------------------- |
-| Auto restart on crash    | If pod fails, K8s restarts it |
-| Scaling                  | Increase replicas             |
-| Load balancing           | Distributes traffic           |
-| Rolling updates          | New version rollout           |
-| Self-healing             | Keeps service alive           |
-
-
-### **Q7: Core Kubernetes Concepts**
-
-| Concept        | Purpose                                        |
-| -------------- | ---------------------------------------------- |
-| **Pod**        | Smallest unit → runs one or more containers    |
-| **Deployment** | Manages pods, allows scaling & rolling updates |
-| **Service**    | Exposes Flask app to network                   |
-| **ReplicaSet** | Ensures desired number of pods                 |
-| **Node**       | Machine where pods run                         |
-| **kubectl**    | CLI to interact with cluster                   |
-
-
-### **Q8: Kubernetes Deployment (Example)**
-
-`k8s/deployment.yaml`
-
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: flask-deploy
-spec:
-  replicas: 1
-  selector:
-    matchLabels: { app: flask }
-  template:
-    metadata:
-      labels: { app: flask }
-    spec:
-      containers:
-      - name: flask-container
-        image: kvinay7/flask-app:latest
-        ports:
-        - containerPort: 5000
-```
-
-
-### **Q9: Kubernetes Service (Expose App)**
-
-```yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: flask-service
-spec:
-  type: LoadBalancer
-  selector:
-    app: flask
-  ports:
-    - port: 80
-      targetPort: 5000
-```
-
-
-### **Q10: Kubernetes Commands**
-
-```bash
-kubectl apply -f k8s/deployment.yaml
-kubectl get pods
-kubectl get svc
-kubectl logs <pod-name>
-kubectl rollout restart deployment/flask-deploy
-```
-
----
-
 # ⚙ **GITHUB ACTIONS**
 
-### **Q11: What is GitHub Actions?**
+### **Q1: What is GitHub Actions?**
 
 GitHub Actions is a **CI/CD automation tool** built into GitHub.
 It runs tasks **automatically** when events occur (push, pull request, etc).
 
 
-### **Q12: Core Concepts**
+### **Q2: Core Concepts**
 
 | Concept             | Purpose                            |
 | ------------------- | ---------------------------------- |
@@ -166,7 +85,7 @@ It runs tasks **automatically** when events occur (push, pull request, etc).
 | **Secrets**         | Sensitive data (tokens, passwords) |
 
 
-### **Q13: CI Example – Build & Push Docker Image**
+### **Q3: CI Example – Build & Push Docker Image**
 
 `.github/workflows/ci.yml`
 
@@ -217,7 +136,7 @@ To generate an access token in DockerHub:
 3. Under **New Access Token**, create a token with `read` and `write` permissions.
 4. Copy the token and use it as `DOCKERHUB_PASSWORD` in GitHub secrets.
    
-**DockerHub Credentials in GitHub Secrets:**
+### DockerHub Credentials in GitHub Secrets:
 
    * GitHub Secrets are encrypted environment variables used to store sensitive data like passwords or tokens.
    * Go to your GitHub repository, navigate to **Settings > Secrets and variables > Actions**, and then add:
@@ -230,8 +149,89 @@ To generate an access token in DockerHub:
 * Manually trigger the workflow by going to **Actions** > **CI - Build & Push Docker Image** > **Run Workflow** in GitHub repo.
 * Ensure that **Dockerfile** and all necessary application files (e.g., `requirements.txt`, `app.py`, etc.) are present in the repository.
 
+---
 
-### **Q14: CD Example — Deploy to Kubernetes**
+# ☸ **KUBERNETES**
+
+### **Q1: What is Kubernetes?**
+
+Kubernetes is a **container orchestration platform** that **manages containers automatically**.
+
+| Why Kubernetes is Needed | Example                       |
+| ------------------------ | ----------------------------- |
+| Auto restart on crash    | If pod fails, K8s restarts it |
+| Scaling                  | Increase replicas             |
+| Load balancing           | Distributes traffic           |
+| Rolling updates          | New version rollout           |
+| Self-healing             | Keeps service alive           |
+
+
+### **Q2: Core Kubernetes Concepts**
+
+| Concept        | Purpose                                        |
+| -------------- | ---------------------------------------------- |
+| **Pod**        | Smallest unit → runs one or more containers    |
+| **Deployment** | Manages pods, allows scaling & rolling updates |
+| **Service**    | Exposes Flask app to network                   |
+| **ReplicaSet** | Ensures desired number of pods                 |
+| **Node**       | Machine where pods run                         |
+| **kubectl**    | CLI to interact with cluster                   |
+
+
+### **Q3: Kubernetes Deployment (Example)**
+
+`k8s/deployment.yaml`
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels: { app: flask }
+  template:
+    metadata:
+      labels: { app: flask }
+    spec:
+      containers:
+      - name: flask-container
+        image: kvinay7/flask-app:latest
+        ports:
+        - containerPort: 5000
+```
+
+
+### **Q4: Kubernetes Service (Expose App)**
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: flask-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: flask
+  ports:
+    - port: 80
+      targetPort: 5000
+```
+
+
+### **Q5: Kubernetes Commands**
+
+```bash
+kubectl apply -f k8s/deployment.yaml
+kubectl get pods
+kubectl get svc
+kubectl logs <pod-name>
+kubectl rollout restart deployment/flask-deploy
+```
+
+
+### **Q6: CD Example — Deploy to Kubernetes**
 
 `.github/workflows/cd.yml`
 
@@ -259,11 +259,3 @@ jobs:
         kubectl apply -f k8s/deployment.yaml
         kubectl rollout restart deployment/flask-deploy
 ```
-
----
-
-# **Conclusion:**
-
-> “Built an end-to-end CI/CD pipeline using Docker, GitHub Actions, and Kubernetes.
-> On manual trigger, GitHub Actions automatically builds and pushes a Docker image to Docker Hub,
-> and a second workflow updates the Kubernetes manifest and deploys it live.”
