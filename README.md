@@ -20,7 +20,7 @@ Docker is a **containerization platform** — it packages an application **with 
 | **Port Mapping** | Allows external users to access app (`-p 5000:5000`) |
 | **Tag**          | Version of image (`:v1`, `:latest`)                  |
 
----
+
 
 ### **Q3: How to create Dockerfile?**
 
@@ -42,7 +42,7 @@ CMD ["python", "app.py"]     # Start the app
 | `CMD`               | Command that runs when container starts |
 | `EXPOSE` (optional) | Tells which port app runs on            |
 
----
+
 
 ### **Q4: How to test Docker locally?**
 
@@ -53,7 +53,7 @@ curl http://localhost:5000
 docker ps
 ```
 
----
+
 
 ### **Q5: Push to Docker Hub**
 
@@ -65,9 +65,7 @@ docker push username/myapp:v1
 
 ---
 
-# ☸ **KUBERNETES — Interview & Learning NOTES**
-
----
+# ☸ **KUBERNETES**
 
 ### **Q6: What is Kubernetes?**
 
@@ -81,7 +79,6 @@ Kubernetes is a **container orchestration platform** that **manages containers a
 | Rolling updates          | New version rollout           |
 | Self-healing             | Keeps service alive           |
 
----
 
 ### **Q7: Core Kubernetes Concepts**
 
@@ -94,7 +91,6 @@ Kubernetes is a **container orchestration platform** that **manages containers a
 | **Node**       | Machine where pods run                         |
 | **kubectl**    | CLI to interact with cluster                   |
 
----
 
 ### **Q8: Kubernetes Deployment (Example)**
 
@@ -120,7 +116,6 @@ spec:
         - containerPort: 5000
 ```
 
----
 
 ### **Q9: Kubernetes Service (Expose App)**
 
@@ -138,7 +133,6 @@ spec:
       targetPort: 5000
 ```
 
----
 
 ### **Q10: Kubernetes Commands**
 
@@ -152,16 +146,13 @@ kubectl rollout restart deployment/flask-deploy
 
 ---
 
-# ⚙ **GITHUB ACTIONS — Interview & Learning NOTES**
-
----
+# ⚙ **GITHUB ACTIONS**
 
 ### **Q11: What is GitHub Actions?**
 
 GitHub Actions is a **CI/CD automation tool** built into GitHub.
 It runs tasks **automatically** when events occur (push, pull request, etc).
 
----
 
 ### **Q12: Core Concepts**
 
@@ -174,7 +165,6 @@ It runs tasks **automatically** when events occur (push, pull request, etc).
 | **Trigger (`on:`)** | Decide when workflow runs          |
 | **Secrets**         | Sensitive data (tokens, passwords) |
 
----
 
 ### **Q13: CI Example – Build & Push Docker Image**
 
@@ -203,8 +193,6 @@ jobs:
         docker tag flask-app ${{ secrets.DOCKERHUB_USERNAME }}/flask-app:latest
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/flask-app:latest
 ```
-
----
 
 ### **Q14: CD Example — Deploy to Kubernetes**
 
@@ -237,7 +225,7 @@ jobs:
 
 ---
 
-## 🎯 **Final CI/CD PIPELINE**
+## **CI/CD PIPELINE**
 
 ```
 Flask App →
@@ -256,4 +244,3 @@ LIVE APPLICATION 🚀
 > “Built an end-to-end CI/CD pipeline using Docker, GitHub Actions, and Kubernetes.
 > On every code push, GitHub Actions automatically builds and pushes a Docker image to Docker Hub,
 > and a second workflow updates the Kubernetes manifest and deploys it live.”
-
