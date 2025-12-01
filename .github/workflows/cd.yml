@@ -1,0 +1,29 @@
+name: CD - Deploy to Kubernetes
+
+# 👇 This makes CD run AFTER CI completes successfully
+on:
+  workflow_run:
+    workflows: ["Manual CI - Build & Push to Docker Hub"]  # CI workflow name
+    types: [completed]
+
+jobs:
+  deploy:
+    runs-on: self-hosted   # Use Codespace runner
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Update image in Kubernetes manifest
+      run: |
+        sed -i "s|image:.*|image: ${{ secrets.DOCKERHUB_USERNAME }}/flask-app:latest|g" k8s/deployment.yaml
+
+    - name: Deploy to Kubernetes
+      run: |
+        kubectl apply -f k8s/deployment.yaml
+        kubectl apply -f k8s/service.yaml
+        kubectl rollout restart deployment/flask-deploy
+
+    - name: Check Deployment
+      run: |
+        kubectl get pods -o wide
+        kubectl get svc -o wide
