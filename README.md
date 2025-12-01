@@ -206,8 +206,7 @@ jobs:
 ```
 
 ### DockerHub Authentication:
-
-GitHub Secrets are encrypted environment variables used to store sensitive data like passwords or tokens. For DockerHub, it's recommended to use a **DockerHub Access Token** instead of password for increased security.
+To authenticate Docker to push to DockerHub, need to add DockerHub credentials (username and password/token) in the GitHub repository's secrets.
 
 To generate an access token in DockerHub:
 
@@ -218,7 +217,7 @@ To generate an access token in DockerHub:
    
 **DockerHub Credentials in GitHub Secrets:**
 
-   * To authenticate Docker to push to DockerHub, need to add DockerHub credentials (username and password/token) in the GitHub repository's secrets.
+   * GitHub Secrets are encrypted environment variables used to store sensitive data like passwords or tokens.
    * Go to your GitHub repository, navigate to **Settings > Secrets and variables > Actions**, and then add:
 
      * `DOCKERHUB_USERNAME`: DockerHub username.
