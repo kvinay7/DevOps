@@ -180,7 +180,7 @@ on:
 
 jobs:
   build-push:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest    # includes Docker, so no need to install it manually.
     steps:
     - uses: actions/checkout@v3
 
