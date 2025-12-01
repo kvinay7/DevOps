@@ -168,32 +168,67 @@ It runs tasks **automatically** when events occur (push, pull request, etc).
 
 ### **Q13: CI Example – Build & Push Docker Image**
 
-`.github/workflows/ci.yml`
-
 ```yaml
 name: CI - Build & Push Docker Image
 
+# Trigger the workflow manually or on push to the main branch
 on:
   workflow_dispatch:   # ← allows manual run
+  # Uncomment this to trigger the workflow on push to 'main'
   # push:
   #   branches: ["main"]
 
+# Jobs defines the set of tasks to run.
 jobs:
   build-push:
-    runs-on: ubuntu-latest    # includes Docker, so no need to install it manually.
+    runs-on: ubuntu-latest  # includes Docker, so no need to install it manually
+
     steps:
-    - uses: actions/checkout@v3
+    # Checkout the code from the repository
+    - name: Checkout code
+      uses: actions/checkout@v3  # Uses the latest version of the checkout action
 
+    # Build the Docker image
     - name: Build Docker image
-      run: docker build -t flask-app .
+      run: docker build -t flask-app .  # Build image with the tag 'flask-app'
 
-    - name: Login & Push
+    # Docker login, tagging, and pushing to DockerHub
+    - name: Login to DockerHub and Push
       run: |
-        echo "${{ secrets.DOCKERHUB_PASSWORD }}" |
-        docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+        # Login to DockerHub using the credentials stored in GitHub secrets
+        echo "${{ secrets.DOCKERHUB_PASSWORD }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+
+        # Tag the built image with your DockerHub repository name
         docker tag flask-app ${{ secrets.DOCKERHUB_USERNAME }}/flask-app:latest
+
+        # Push the image to DockerHub
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/flask-app:latest
 ```
+
+### DockerHub Authentication:
+
+GitHub Secrets are encrypted environment variables used to store sensitive data like passwords or tokens. For DockerHub, it's recommended to use a **DockerHub Access Token** instead of password for increased security.
+
+To generate an access token in DockerHub:
+
+1. Log into [DockerHub](https://hub.docker.com/).
+2. Go to **Account Settings** > **Security**.
+3. Under **New Access Token**, create a token with `read` and `write` permissions.
+4. Copy the token and use it as `DOCKERHUB_PASSWORD` in GitHub secrets.
+   
+**DockerHub Credentials in GitHub Secrets:**
+
+   * To authenticate Docker to push to DockerHub, need to add DockerHub credentials (username and password/token) in the GitHub repository's secrets.
+   * Go to your GitHub repository, navigate to **Settings > Secrets and variables > Actions**, and then add:
+
+     * `DOCKERHUB_USERNAME`: DockerHub username.
+     * `DOCKERHUB_PASSWORD`: DockerHub password or **DockerHub Access Token**.
+  
+### Running the CI Workflow:
+
+* Manually trigger the workflow by going to **Actions** > **CI - Build & Push Docker Image** > **Run Workflow** in GitHub repo.
+* Ensure that **Dockerfile** and all necessary application files (e.g., `requirements.txt`, `app.py`, etc.) are present in the repository.
+
 
 ### **Q14: CD Example — Deploy to Kubernetes**
 
