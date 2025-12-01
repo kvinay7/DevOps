@@ -1,8 +1,9 @@
 name: CI - Build & Push Docker Image
 
 on:
-  push:
-    branches: ["main"]     # on each push to main
+  workflow_dispatch:   # ← allows manual run
+  # push:
+     branches: ["main"]   # comment out if you want ONLY manual runs
 
 jobs:
   build:
