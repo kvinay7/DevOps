@@ -225,20 +225,6 @@ jobs:
 
 ---
 
-## **CI/CD PIPELINE**
-
-```
-Flask App →
-Dockerfile → Docker Image →
-GitHub Push →
-CI: GitHub Actions Builds & Pushes to Docker Hub →
-CD: GitHub Actions Deploys to Kubernetes →
-kubectl apply →
-LIVE APPLICATION 🚀
-```
-
----
-
 # **Conclusion:**
 
 > “Built an end-to-end CI/CD pipeline using Docker, GitHub Actions, and Kubernetes.
