@@ -259,3 +259,42 @@ jobs:
         kubectl apply -f k8s/deployment.yaml
         kubectl rollout restart deployment/flask-deploy
 ```
+
+### **1. Self-Hosted Runner Requirements**
+
+* `kubectl` installed
+* `sed` installed (usually default on Linux)
+* Access to Kubernetes cluster (via `~/.kube/config` or exported `KUBECONFIG`)
+* Permission to run:
+
+  * `kubectl apply`
+  * `kubectl rollout restart`
+
+---
+
+### **2. Kubernetes Cluster Requirements**
+
+* `k8s/deployment.yaml` (app deployment)
+* `k8s/service.yaml` (**required** to expose app)
+* Optional: `k8s/ingress.yaml` (if using domain name)
+
+---
+
+### **3. Kubernetes Access Type → How Get the Live URL**
+
+#### **Option A: LoadBalancer Service**
+
+* Create a `Service` with `type: LoadBalancer`
+* Run:
+
+  ```
+  kubectl get svc flask-service
+  ```
+* EXTERNAL-IP becomes **live URL**
+
+#### **Option B: Ingress (recommended)**
+
+* Requires an ingress controller (e.g., NGINX)
+* Create `ingress.yaml`
+* DNS points to ingress controller
+* App becomes available
