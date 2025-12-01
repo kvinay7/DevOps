@@ -1,5 +1,3 @@
-## 🐳 **DOCKER**
-
 ### **Q1: What is Docker?**
 
 Docker is a **containerization platform** — it packages an application **with dependencies, libraries & runtime** into one unit called a **container**, which runs **same on any machine**.
@@ -63,15 +61,14 @@ docker push username/myapp:v1
 
 ---
 
-# ⚙ **GITHUB ACTIONS**
 
-### **Q11: What is GitHub Actions?**
+### **Q6: What is GitHub Actions?**
 
 GitHub Actions is a **CI/CD automation tool** built into GitHub.
 It runs tasks **automatically** when events occur (push, pull request, etc).
 
 
-### **Q12: Core Concepts**
+### **Q7: Core Concepts**
 
 | Concept             | Purpose                            |
 | ------------------- | ---------------------------------- |
@@ -83,7 +80,7 @@ It runs tasks **automatically** when events occur (push, pull request, etc).
 | **Secrets**         | Sensitive data (tokens, passwords) |
 
 
-### **Q13: CI Example – Build & Push Docker Image**
+### **Q8: CI Example – Build & Push Docker Image**
 
 `.github/workflows/ci.yml`
 
