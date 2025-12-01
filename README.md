@@ -174,8 +174,9 @@ It runs tasks **automatically** when events occur (push, pull request, etc).
 name: CI - Build & Push Docker Image
 
 on:
-  push:
-    branches: ["main"]
+  workflow_dispatch:   # ← allows manual run
+  # push:
+  #   branches: ["main"]
 
 jobs:
   build-push:
@@ -228,5 +229,5 @@ jobs:
 # **Conclusion:**
 
 > “Built an end-to-end CI/CD pipeline using Docker, GitHub Actions, and Kubernetes.
-> On every code push, GitHub Actions automatically builds and pushes a Docker image to Docker Hub,
+> On manual trigger, GitHub Actions automatically builds and pushes a Docker image to Docker Hub,
 > and a second workflow updates the Kubernetes manifest and deploys it live.”
