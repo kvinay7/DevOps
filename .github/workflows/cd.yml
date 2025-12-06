@@ -1,7 +1,7 @@
 name: Deploy Docker Image to Railway
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:  # Manual trigger for deploying
 
 jobs:
   deploy:
@@ -22,8 +22,9 @@ jobs:
 
       - name: Set up Railway CLI
         run: |
-          curl -sSL https://railway.app/cli | sh
+          curl -sSL https://railway.app/cli | bash
           export PATH="$HOME/.railway/bin:$PATH"
+          echo "$HOME/.railway/bin" >> $GITHUB_PATH  # Add Railway CLI to the PATH in GitHub Actions
 
       - name: Railway Login
         run: railway login --token ${{ secrets.RAILWAY_API_KEY }}
