@@ -20,11 +20,9 @@ jobs:
       - name: Pull Docker Image from Docker Hub
         run: docker pull ${{ secrets.DOCKERHUB_USERNAME }}/flask-app:latest
 
-      - name: Set up Railway CLI
+      - name: Install Railway CLI with npm
         run: |
-          curl -sSL https://railway.app/cli | bash
-          export PATH="$HOME/.railway/bin:$PATH"
-          echo "$HOME/.railway/bin" >> $GITHUB_PATH  # Add Railway CLI to the PATH in GitHub Actions
+          npm install -g railway
 
       - name: Railway Login
         run: railway login --token ${{ secrets.RAILWAY_API_KEY }}
